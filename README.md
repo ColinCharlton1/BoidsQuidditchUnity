@@ -1,2 +1,46 @@
-# BoidsQuidditchUnity
-Assignment For Class
+# Boids Quidditch Unity Project
+
+More details to be filled in later
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+All files under the thirdParty folder are from the unity assets store, licensed under the Asset Store Terms of Service and EULA.
