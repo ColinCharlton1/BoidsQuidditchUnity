@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 444f12419cd46fa4ebc71bd3002e1caa, type: 3}
-  m_Name: EnvironmentData
+  m_Script: {fileID: 11500000, guid: 4c034c8a21e166a4a8d9b0c7486b521b, type: 3}
+  m_Name: PlayerConstraints
   m_EditorClassIdentifier: 
-  maxHeight: 50
-  xMax: 50
-  xMin: -50
-  zMax: 50
-  zMin: -50
+  playerAvoidDistance: 10
+  playerAvoidStrength: 10
+  barrierAvoidDistance: 50
+  barrierAvoidStrength: 2
+  environmentConstraintDistance: 5
+  environmentConstraintStrength: 10

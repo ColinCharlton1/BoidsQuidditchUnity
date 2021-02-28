@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class snitch_behaviour : MonoBehaviour
+public class SnitchBehaviour : MonoBehaviour
 {
     [Header("Speed Controls")]
     public float minSpeed = 5.0f;
@@ -50,17 +50,17 @@ public class snitch_behaviour : MonoBehaviour
         RaycastHit hit;
         if (Physics.SphereCast(transform.position, barrierAvoidDistance, transform.forward, out hit, barrierAvoidDistance, LayerMask.GetMask("Barrier")))
         {
-            float distanceFactor = rb.velocity.magnitude * barrierAvoidStrength / Mathf.Min(hit.distance, 0.1f);
-            forceAdjustment = (transform.position - hit.point).normalized * distanceFactor;
+            float distanceFactor = rb.velocity.magnitude * barrierAvoidStrength / Mathf.Max(hit.distance, 0.1f);
+            forceAdjustment = (rb.position - hit.rigidbody.position).normalized * distanceFactor;
             Debug.DrawLine(transform.position, hit.point, Color.red, 1.0f);
         }
-        Debug.Log("barrier adjustment of: " + forceAdjustment);
         return forceAdjustment;
     }
 
     private Vector3 GetEnvironmentConstraints()
     {
         float heightMaxDist = transform.position.y - environmentData.maxHeight;
+        float heightMinDist = transform.position.y - environmentData.minHeight;
         float xMaxDist = transform.position.x - environmentData.xMax;
         float xMinDist = transform.position.x - environmentData.xMin;
         float zMaxDist = transform.position.z - environmentData.zMax;
@@ -68,10 +68,11 @@ public class snitch_behaviour : MonoBehaviour
         float distanceFactor = barrierAvoidStrength * rb.velocity.magnitude;
         Vector3 forceAdjustment = Vector3.zero;
         if (heightMaxDist > -barrierAvoidDistance) forceAdjustment.y = distanceFactor / Mathf.Min(heightMaxDist, -0.1f);
+        if (heightMinDist < barrierAvoidDistance) forceAdjustment.x = distanceFactor / Mathf.Max(heightMinDist, 0.1f);
         if (xMaxDist > -barrierAvoidDistance) forceAdjustment.x = distanceFactor / Mathf.Min(xMaxDist, -0.1f);
         if (xMinDist < barrierAvoidDistance) forceAdjustment.x = distanceFactor / Mathf.Max(xMinDist, 0.1f);
         if (zMaxDist > -barrierAvoidDistance) forceAdjustment.z = distanceFactor / Mathf.Min(zMaxDist, -0.1f);
-        if (zMinDist < barrierAvoidDistance) forceAdjustment.z = distanceFactor / Mathf.Max(zMinDist, 0.1f);
+        if (zMinDist < barrierAvoidDistance) forceAdjustment.z = distanceFactor / Mathf.Max(zMinDist, 0.1f); 
         return forceAdjustment;
     }
 
@@ -82,8 +83,6 @@ public class snitch_behaviour : MonoBehaviour
         newForce += GetEnvironmentConstraints();
         rb.AddForce(newForce);
         Vector3 velocity = rb.velocity;
-        Debug.Log("velocity after force addition: " + velocity);
-        
         if (velocity.magnitude > maxSpeed)
         {
             rb.AddForce(((velocity.normalized * maxSpeed) - velocity));
@@ -92,9 +91,6 @@ public class snitch_behaviour : MonoBehaviour
         {
             rb.AddForce(((velocity.normalized * minSpeed) - velocity));
         }
-        
-        Debug.Log("velocity after corrections: " + rb.velocity);
-        Debug.Log("###############################");
     }
 
     private void ChangeRandomForce()
@@ -102,7 +98,7 @@ public class snitch_behaviour : MonoBehaviour
         Vector3 result = new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f),
                                      UnityEngine.Random.Range(-1.0f, 1.0f),
                                      UnityEngine.Random.Range(-1.0f, 1.0f));
-        result = (currentRandom / randomChangeStrength + (result.normalized * randomChangeMax)).normalized * randomChangeStrength;
+        result = (currentRandom / randomChangeStrength + (result * randomChangeMax)).normalized * randomChangeStrength;
         currentRandom = result;
     }
 }

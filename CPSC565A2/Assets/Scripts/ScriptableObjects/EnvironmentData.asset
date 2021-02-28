@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 444f12419cd46fa4ebc71bd3002e1caa, type: 3}
+  m_Name: EnvironmentData
+  m_EditorClassIdentifier: 
+  maxHeight: 200
+  minHeight: 0
+  xMax: 100
+  xMin: -100
+  zMax: 100
+  zMin: -100

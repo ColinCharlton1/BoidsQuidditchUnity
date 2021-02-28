@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnvironmentScriptable : ScriptableObject
 {
     public float maxHeight;
+    public float minHeight;
     public float xMax;
     public float xMin;
     public float zMax;
